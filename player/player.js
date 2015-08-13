@@ -145,7 +145,7 @@ equalizer.addEventListener('change', function (e) {
 function setupSpectrum () {
 	analyser = context.createAnalyser();
 	analyser.smoothingTimeConstant = 0.3;
-    analyser.fftSize = 1024;
+    analyser.fftSize = 512;
 	spectrumNode = context.createScriptProcessor(0, 1, 1);
 
 	var canvasContext = spectrumCanvas.getContext('2d');
