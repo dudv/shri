@@ -1,0 +1,296 @@
+body {
+  margin: 0;
+  font-family: Helvetica, sans-serif;
+  font-size: 16px;
+}
+table.flight-table {
+  overflow: hidden;
+  border-spacing: 0;
+  border: none;
+  position: relative;
+}
+table.flight-table tr {
+  display: none;
+  position: relative;
+  height: 34px;
+}
+table.flight-table tr:nth-child(odd):after {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 34px;
+  z-index: -2;
+  background-color: #dddcda;
+}
+table.flight-table tr:hover {
+  background-color: #ffeba0;
+}
+table.flight-table tr th,
+table.flight-table tr td {
+  position: relative;
+  text-align: left;
+  padding-right: 32px;
+}
+table.flight-table tr th:last-child,
+table.flight-table tr td:last-child {
+  padding-right: 0;
+}
+table.flight-table tr th:hover:after,
+table.flight-table tr td:hover:after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: -5000px;
+  height: 10000px;
+  width: 100%;
+  z-index: -1;
+  background-color: #ffeba0;
+}
+table.flight-table tr td.type {
+  background-repeat: no-repeat;
+  background-position: left center;
+}
+table.flight-table tr.arrival td.type {
+  background-image: url('arrival.png');
+}
+table.flight-table tr.departure td.type {
+  background-image: url('departure.png');
+}
+table.flight-table tr td .airline-icon {
+  background-size: contain;
+  width: 32px;
+  height: 32px;
+  margin-right: 8px;
+  vertical-align: middle;
+  display: none;
+}
+table.flight-table tr td .aircraft-short-name {
+  display: none;
+}
+table.flight-table tr td a {
+  display: block;
+  position: absolute;
+  width: 10000px;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+@media (max-width: 1023px) {
+  table.flight-table tr td .airline-icon {
+    display: inline-block;
+  }
+  table.flight-table tr td .airline-name {
+    display: none;
+  }
+}
+@media (max-width: 890px) {
+  table.flight-table tr td .aircraft-short-name {
+    display: inline-block;
+  }
+  table.flight-table tr td .aircraft-full-name {
+    display: none;
+  }
+}
+@media (max-width: 790px) {
+  table.flight-table tr {
+    font-size: 14px;
+    /* hide aircraft data */
+  }
+  table.flight-table tr td > .aircraft-short-name,
+  table.flight-table tr th:nth-child(5),
+  table.flight-table tr td:nth-child(5) {
+    display: none;
+  }
+}
+@media (max-width: 675px) {
+  table.flight-table tr {
+    /* hide airline data */
+  }
+  table.flight-table tr th:nth-child(4),
+  table.flight-table tr td:nth-child(4) {
+    display: none;
+  }
+}
+@media (max-width: 600px) {
+  table.flight-table tr {
+    /* hide remarks */
+  }
+  table.flight-table tr th:last-child,
+  table.flight-table tr td:last-child {
+    display: none;
+  }
+  table.flight-table tr th > div {
+    /* override style for <thead> */
+    width: 150px !important;
+  }
+  table.flight-table tr th:nth-last-child(2) > div {
+    width: 89px !important;
+  }
+}
+@media (max-width: 600px) {
+  table.flight-table tr {
+    /* hide destionation */
+  }
+  table.flight-table tr th:nth-child(6),
+  table.flight-table tr td:nth-child(6) {
+    display: none;
+  }
+}
+table.flight-table thead > tr {
+  display: table-row;
+}
+table.flight-table thead > tr:after {
+  display: none;
+}
+table.flight-table thead th {
+  min-width: 16px;
+}
+table.flight-table thead th > div {
+  position: fixed;
+  color: white;
+  z-index: 1;
+  height: 34px;
+  line-height: 34px;
+  margin-top: -17px;
+  background-color: #e61400;
+  width: 250px;
+}
+table.flight-table thead th:last-child {
+  width: 165px;
+}
+table.flight-table thead th:last-child > div {
+  width: 165px;
+}
+label,
+input[type="checkbox"] {
+  top: 12px;
+  position: fixed;
+  z-index: 1;
+}
+[name="arrivals"] {
+  margin-left: 57px;
+}
+[name="departures"] {
+  margin-left: 165px;
+}
+label[for="departures-checkbox"] {
+  margin-left: 82px;
+}
+[name="arrivals"]:checked ~ table tr.arrival {
+  display: table-row;
+}
+[name="departures"]:checked ~ table tr.departure {
+  display: table-row;
+}
+@-webkit-keyframes modal-animation {
+  from {
+    top: -100px;
+    opacity: 0;
+  }
+  to {
+    top: 0px;
+    opacity: 1;
+  }
+}
+@keyframes modal-animation {
+  from {
+    top: -100px;
+    opacity: 0;
+  }
+  to {
+    top: 0px;
+    opacity: 1;
+  }
+}
+.modal {
+  display: none;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  z-index: 1;
+}
+.modal .inner {
+  display: table-cell;
+  vertical-align: middle;
+}
+.modal .inner .content {
+  -webkit-animation-name: modal-animation;
+  -webkit-animation-duration: 0.5s;
+  animation-name: modal-animation;
+  animation-duration: 0.5s;
+  margin: auto;
+  width: 600px;
+  height: 200px;
+  background-color: white;
+  position: relative;
+  text-align: left;
+}
+.modal .inner .content .head {
+  background-color: #e61400;
+  background-repeat: no-repeat;
+  background-position: 12px center;
+  color: white;
+  padding: 12px;
+  padding-left: 54px;
+  font-size: 24px;
+  line-height: 24px;
+}
+.modal .inner .content .head.arrival {
+  background-image: url('arrival_white.png');
+}
+.modal .inner .content .head.departure {
+  background-image: url('departure_white.png');
+}
+.modal .inner .content .head a.close {
+  text-decoration: none;
+  float: right;
+  color: white;
+  font-size: 20px;
+  opacity: 1.0;
+  -webkit-transition: opacity 0.2s;
+  -o-transition: opacity 0.2s;
+  transition: opacity 0.2s;
+}
+.modal .inner .content .head a.close:hover {
+  opacity: 0.75;
+}
+.modal .inner .content .body {
+  padding: 24px 12px;
+}
+.modal .inner .content .body table {
+  border-spacing: 0;
+  width: 100%;
+}
+.modal .inner .content .body table:last-child {
+  margin-top: 24px;
+}
+.modal:target {
+  display: table;
+}
+@media (max-width: 620px) {
+  .modal .inner > .content {
+    width: 315px;
+    font-size: 13px;
+  }
+}
+.container {
+  margin: auto;
+  display: table;
+  margin-top: 40px;
+}
+.container:before {
+  position: fixed;
+  content: '';
+  background-color: white;
+  width: 100%;
+  height: 40px;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WebAudio Player</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<canvas id="spectrum-canvas"></canvas>
+	<div class="drop-region" id="drop-region"></div>
+	<div class="player" id="player" data-state="no-track">		
+		<button name="play" id="play-button" class="no-track"></button>
+		<div class="metadata">
+			<div class="track-title" id="track-title">No track loaded</div>
+			<div class="filename" id="filename"></div>
+		</div>
+		<select name="equalizer" id="equalizer">
+			<option selected="selected">normal</option>
+			<option>pop</option>
+			<option>rock</option>
+			<option>jazz</option>
+			<option>classic</option>
+		</select>
+		<input type="file" name="sound" id="sound-input">
+	</div>	
+
+	<script type="text/javascript" src="metadata-audio-parser.js"></script>	
+	<script type="text/javascript" src="player.js"></script>
+</body>
+</html>

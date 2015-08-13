@@ -1,0 +1,118 @@
+body {
+	background-color: #f6f5f3;
+	font-family: Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+@ya-color: #e61400;
+
+.player {
+	@player-height: 48px;
+	background: white;
+	height: @player-height;
+	position: relative;
+	
+	button[name="play"] {
+		width: @player-height;
+		height: @player-height;
+		border: none;
+		box-shadow: none;
+		background-color: transparent;
+		outline: none;
+		padding: 0;
+		&:after {			
+			
+			font-size: 32px;
+			color: black;
+			-webkit-transition: color 0.1s;
+			-o-transition: color 0.1s;
+			transition: color 0.1s;
+		}		
+		&:hover {
+			&:after {
+				color: @ya-color;
+			}
+		}
+	}
+	.metadata {
+		display: inline-block;
+	    height: 100%;
+	    min-width: 240px;
+	    vertical-align: bottom;
+		.track-title {
+			display: inline-block;			
+			font-size: 18px;
+    		margin-top: 6px;
+    		white-space: nowrap;
+		}
+		.filename {
+			font-size: 13px;
+			white-space: nowrap;
+		}
+	}
+	select[name="equalizer"] {		
+		height: @player-height;
+		border: none;
+		box-shadow: none;
+		background-color: transparent;
+		outline: none;
+		display: inline-block;
+		float: right;
+		margin-left: 20px;
+	}
+	input[name="sound"] {
+		position: absolute;
+		left: -10000px;
+		top: -10000px;
+	}
+
+	&[data-state="no-track"] {
+		button[name="play"]:after {
+			content: '►';
+		}
+		.metadata > .track-title {
+			line-height: @player-height;
+			margin-top: 0;
+			color: #999;
+		}
+		.metadata > .filename {
+			display: none;
+		}
+		select[name="equalizer"] {
+			display: none;
+		}
+	}
+	&[data-state="playing"] {
+		button[name="play"]:after {
+			content: '⬛';
+		}
+	}
+	&[data-state="stopped"] {
+		button[name="play"]:after {
+			content: '►';
+		}
+	}
+}
+
+.drop-region {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+
+canvas {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}

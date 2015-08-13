@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Airport schedule</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+<div class="container">
+	<label for="arrivals-checkbox">Arrivals</label>
+	<input type="checkbox" name="arrivals" id="arrivals-checkbox" checked="checked">
+	<label for="departures-checkbox">Departures</label>
+	<input type="checkbox" name="departures" id="departures-checkbox" checked="checked">
+	<table class="flight-table">
+		<thead>
+			<tr>
+				<th><div>Time</div></th>
+				<th><div>Type</div></th>
+				<th><div>Flight #</div></th>
+				<th><div>Airline</div></th>
+				<th><div>Aircraft</div></th>
+				<th><div>Destination</div></th>			
+				<th><div>Status</div></th>
+				<th><div>Remarks</div></th>
+			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+
+	<script type="text/javascript">
+		var schedule = [
+			{
+				'type': 'arrival',
+				'flight_id': 'KL 1990',
+				'airline': {'name': 'KLM Royal Dutch Airlines', 'logo': 'logo_klm.png'},
+				'aircraft': {'fullName': 'Fokker F70', 'shortName': 'F70'},
+				'destination': 'Schiphol',
+				'schedule': '10:00',
+				'status': 'delayed',
+				'remarks': 'Expected arrival 18:12'
+			},
+			{
+				'type': 'arrival',
+				'flight_id': 'BA 2758',
+				'airline': {'name': 'British Airways', 'logo': 'logo_ba.png'},
+				'aircraft': {'fullName': 'Airbus A319', 'shortName': 'A319'},
+				'destination': 'Schiphol',
+				'schedule': '09:35',
+				'status': 'arrived',
+				'remarks': 'Luggage on belt 09:51'
+			},
+			{
+				'type': 'departure',
+				'flight_id': 'DL 0047',
+				'airline': {'name': 'Delta Air Lines', 'logo': 'logo_delta.png'},
+				'aircraft': {'fullName': 'Boeing 767-300 ER', 'shortName': 'B767'},
+				'destination': 'New York JFK',
+				'schedule': '9:30',
+				'status': 'departed',
+				'remarks': 'Departed 09:28'
+			},
+			{
+				'type': 'departure',
+				'flight_id': 'MF 9328',
+				'airline': {'name': 'Xiamen Airlines', 'logo': 'logo_xa.png'},
+				'aircraft': {'fullName': 'Boeing 737-800', 'shortName': 'B737'},
+				'destination': 'Madrid',
+				'schedule': '9:30',
+				'status': 'boarding',
+				'remarks': 'Boarding'
+			}
+		];
+		var tbody = document.getElementsByTagName('tbody')[0];
+		var table = document.getElementsByTagName('table')[0];
+		var flightsCount = 50;
+		for (var i = 0; i < flightsCount; ++i) {
+			var index = Math.floor((Math.random() * schedule.length));
+			var flight = schedule[index];
+			var modal_link = '<a href="#row-modal-' + i + '"></a>';
+			tbody.insertAdjacentHTML('beforeend', [
+				'<tr class="' + flight.type + '">',
+					'<td>' + modal_link + flight.schedule + '</td>',
+					'<td class="type">' + modal_link + '</td>',
+					'<td>' + modal_link + flight.flight_id + '</td>',
+					'<td><div class="airline-icon" style="background-image: url(\'' + flight.airline.logo + '\')"></div><div class="airline-name">' + flight.airline.name + '</div>' + modal_link + '</td>',
+					'<td><div class="aircraft-short-name">' + flight.aircraft.shortName + '</div><div class="aircraft-full-name">' + flight.aircraft.fullName + '</div>' + modal_link + '</td>',
+					'<td>' + modal_link + flight.destination + '</td>',
+					'<td>' + modal_link + flight.status + '</td>',
+					'<td>' + modal_link + flight.remarks + '</td>',
+				'</tr>',
+			].join(''));
+			table.insertAdjacentHTML('afterend', [
+				'<div class="modal" id="row-modal-' + i + '">',
+					'<div class="inner">',
+						'<div class="content">',
+							'<div class="head ' + flight.type + '">',
+								flight.flight_id,
+								'<a href="#" class="close">&#10060;</a>',
+							'</div>',
+							'<div class="body">',
+								'<table>',
+									'<thead>',
+										'<tr>',
+											'<th>Schedule</th>',
+											'<th>Destination</th>',
+											'<th>Airline</th>',
+											'<th>Aircraft</th>',								
+										'</tr>',
+									'</thead>',
+									'<tbody>',
+										'<tr>',
+											'<td>' + flight.schedule + '</td>',
+											'<td>' + flight.destination + '</td>',
+											'<td>' + flight.airline.name + '</td>',
+											'<td>' + flight.aircraft.fullName + '</td>',
+										'</tr>',
+									'</tbody>',
+								'</table>',
+								'<table>',
+									'<thead>',
+										'<tr>',
+											'<th>Satus</th>',
+											'<th>Remarks</th>',							
+										'</tr>',
+									'</thead>',
+									'<tbody>',
+										'<tr>',
+											'<td>' + flight.status + '</td>',
+											'<td>' + flight.remarks + '</td>',
+										'</tr>',
+									'</tbody>',
+								'</table>',
+							'</div>',					
+						'</div>',
+					'</div>',
+				'</div>'
+			].join(''));
+		}
+	</script>
+</body>
+</html>

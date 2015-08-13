@@ -1,0 +1,308 @@
+@highlight-color: #ffeba0;
+@ya-color: #e61400;
+
+body {
+	margin: 0;
+	font-family: Helvetica, sans-serif;
+	font-size: 16px;
+}
+
+table.flight-table {	
+	overflow: hidden;
+	border-spacing: 0;
+	border: none;
+	position: relative;
+	tr {
+		display: none;
+		position: relative;
+		height: 34px;		
+		&:nth-child(odd) {
+			&:after {
+			  content: "";
+			  position: absolute;			  
+			  left: 0;
+			  width: 100%;
+			  height: 34px;
+			  z-index: -2;
+			  background-color: #dddcda;
+			}
+		}
+		&:hover {
+			background-color: @highlight-color;
+		}
+		
+
+		th, td {			
+			position: relative;
+			text-align: left;
+			padding-right: 32px;
+			&:last-child {
+				padding-right: 0;
+			}
+
+			&:hover {
+				&:after {
+					content: "";
+					position: absolute;			  
+					left: 0;
+					top: -5000px;
+					height: 10000px;
+					width: 100%;
+					z-index: -1;
+					background-color: @highlight-color;
+				}				
+			}
+		}		
+		td.type {			
+			background-repeat: no-repeat;
+    		background-position: left center;
+		}
+		&.arrival {
+			td.type { background-image: url('arrival.png'); }
+		}
+		&.departure {
+			td.type {  background-image: url('departure.png'); }
+		}
+		td {
+			.airline-icon {
+				background-size: contain;
+			    width: 32px;
+			    height: 32px;
+			    margin-right: 8px;
+			    vertical-align: middle;
+			    display: none;
+			}
+			.aircraft-short-name {
+				display: none;
+			}
+			a {
+				display: block;
+				position: absolute;
+				width: 10000px;
+				height: 100%;
+				top: 0;
+				left: 0;
+				z-index: 1;
+			}
+
+			@media (max-width: 1023px) {
+				.airline-icon {
+					display: inline-block;
+				}
+				.airline-name {
+					display: none;
+				}			
+			}
+
+			@media (max-width: 890px) {
+				.aircraft-short-name {
+					display: inline-block;
+				}
+				.aircraft-full-name {
+					display: none;
+				}
+			}			
+		}
+
+		@media (max-width: 790px) {
+			font-size: 14px;
+			/* hide aircraft data */
+			td > .aircraft-short-name, th:nth-child(5), td:nth-child(5) {
+				display: none;
+			}			
+		}
+
+		@media (max-width: 675px) {
+			/* hide airline data */
+			th:nth-child(4), td:nth-child(4) {
+				display: none;
+			}			
+		}
+
+		@media (max-width: 600px) {
+			/* hide remarks */
+			th:last-child, td:last-child {
+				display: none;
+			}
+			th > div {
+				/* override style for <thead> */
+				width: 150px !important;
+			}
+			th:nth-last-child(2) > div {
+				width: 89px !important;
+			}
+		}
+
+		@media (max-width: 600px) {
+			/* hide destionation */
+			th:nth-child(6), td:nth-child(6) {
+				display: none;
+			}		
+		}
+	}
+
+	
+	thead {
+		& > tr {
+			display: table-row;
+			&:after { display: none; }
+		}
+		th {			
+			min-width: 16px;
+			& > div {
+				position: fixed;
+			    color: white;
+			    z-index: 1;
+				height: 34px;
+				line-height: 34px;
+				margin-top: -17px;
+				background-color: @ya-color;
+				width: 250px;				
+			}
+			&:last-child {
+				width: 165px;
+				& > div {
+					width: 165px;
+				}
+			}
+		}		
+	}
+}
+
+label, input[type="checkbox"] {
+	top: 12px;
+	position: fixed;
+	z-index: 1;
+}
+
+[name="arrivals"] {
+	margin-left: 57px;	
+}
+
+[name="departures"] {
+	margin-left: 165px;	
+}
+
+label[for="departures-checkbox"] {
+	margin-left: 82px;
+}
+
+[name="arrivals"]:checked  ~ table {
+	tr.arrival {
+		display: table-row;
+	}
+}
+
+[name="departures"]:checked  ~ table {
+	tr.departure {
+		display: table-row;
+	}
+}
+
+@-webkit-keyframes modal-animation {
+    from {top:-100px;opacity: 0;}
+    to {top:0px;opacity:1;}
+}
+
+@keyframes modal-animation {
+    from {top:-100px;opacity: 0;}
+    to {top:0px;opacity:1;}
+}
+
+.modal {
+	display: none;	
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.4);
+	text-align: center;
+	z-index: 1;
+
+	.inner {
+		display: table-cell;
+		vertical-align: middle;
+
+		.content {
+			-webkit-animation-name: modal-animation;
+			-webkit-animation-duration: 0.5s;
+			animation-name: modal-animation;
+			animation-duration: 0.5s;
+
+			margin: auto;
+			width: 600px;
+			height: 200px;
+			background-color: white;
+			position: relative;
+			text-align: left;
+			.head {
+				background-color: @ya-color;
+				background-repeat: no-repeat;
+    			background-position: 12px center;
+				color: white;
+				padding: 12px;
+				padding-left: 54px;
+				font-size: 24px;
+				line-height: 24px;
+
+				&.arrival {
+					background-image: url('arrival_white.png');
+				}
+				&.departure {
+					background-image: url('departure_white.png');
+				}
+				a.close {
+					text-decoration: none;
+					float: right;
+					color: white;
+					font-size: 20px;
+					opacity: 1.0;
+					-webkit-transition: opacity 0.2s;
+					-o-transition: opacity 0.2s;
+					transition: opacity 0.2s;
+					&:hover {
+						opacity: 0.75;
+					}
+				}
+			}
+			.body {
+				padding: 24px 12px;
+				table {
+					border-spacing: 0;
+					width: 100%;
+					&:last-child {
+						margin-top: 24px;
+					}
+				}
+			}
+		}
+	}
+
+	&:target {
+		display: table;
+	}
+
+	@media (max-width: 620px) {
+		.inner > .content {
+			width: 315px;
+			font-size: 13px;
+		}
+	}
+}
+
+.container {
+	margin: auto;
+	display: table;
+    margin-top: 40px;
+    &:before {
+		position: fixed;
+		content: '';
+		background-color: white;
+		width: 100%;
+		height: 40px;
+	    left: 0;
+	    top: 0;
+	    z-index: 1;
+	}
+}
