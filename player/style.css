@@ -37,9 +37,6 @@ body {
   -o-transition: color 0.1s;
   transition: color 0.1s;
 }
-.player button[name="play"]:hover:after {
-  border-left-color: #e61400;
-}
 .player .metadata {
   display: inline-block;
   height: 100%;
@@ -94,6 +91,12 @@ body {
   height: 24px;
   left: 12px;
   top: 12px;
+  -webkit-transition: background-color 0.2s;
+  -o-transition: background-color 0.2s;
+  transition: background-color 0.2s;
+}
+.player[data-state="playing"] button[name="play"]:hover:after {
+  background-color: #e61400;
 }
 .player[data-state="stopped"] button[name="play"]:after,
 .player[data-state="no-track"] button[name="play"]:after {
@@ -102,6 +105,13 @@ body {
   border-top: 12px solid transparent;
   border-left: 21px solid #000;
   border-bottom: 12px solid transparent;
+  -webkit-transition: border-left-color 0.2s;
+  -o-transition: border-left-color 0.2s;
+  transition: border-left-color 0.2s;
+}
+.player[data-state="stopped"] button[name="play"]:hover:after,
+.player[data-state="no-track"] button[name="play"]:hover:after {
+  border-left-color: #e61400;
 }
 .player[data-state="loading"] button[name="play"]:after {
   content: '';

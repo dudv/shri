@@ -39,11 +39,6 @@ body {
 			-webkit-transition: color 0.1s;
 			-o-transition: color 0.1s;
 			transition: color 0.1s;
-		}		
-		&:hover {
-			&:after {
-				border-left-color: @ya-color;
-			}
 		}
 	}
 	.metadata {
@@ -101,7 +96,13 @@ body {
 			width: 24px;
 			height: 24px;
 			left: 12px;
-			top: 12px;		
+			top: 12px;
+			-webkit-transition: background-color 0.2s;
+			-o-transition: background-color 0.2s;
+			transition: background-color 0.2s;
+		}
+		button[name="play"]:hover:after {
+			background-color: @ya-color;
 		}
 	}
 	&[data-state="stopped"], &[data-state="no-track"] {
@@ -111,6 +112,12 @@ body {
 		    border-top: 12px solid transparent;
 		    border-left: 21px solid #000;
 		    border-bottom: 12px solid transparent;
+		    -webkit-transition: border-left-color 0.2s;
+		    -o-transition: border-left-color 0.2s;
+		    transition: border-left-color 0.2s;
+		}
+		button[name="play"]:hover:after {
+			border-left-color: @ya-color;
 		}
 	}
 	&[data-state="loading"] {
