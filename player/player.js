@@ -19,14 +19,19 @@ var playButton = document.getElementById('play-button'),
 	dropRegion = document.getElementById('drop-region'),
 	equalizer = document.getElementById('equalizer'),
 	spectrumCanvas = document.getElementById('spectrum-canvas'),
+	helpTextDiv = document.getElementById('help-text'),
 	player = document.getElementById('player');
 
 function loadSoundFile(file) {
 	var fileReader = new FileReader();	
-	fileReader.onload = function(e) {		
+	fileReader.onload = function(e) {
+		stopSound();
+		player.setAttribute('data-state', 'loading');
+		trackTitleDiv.innerHTML = 'Loading...';
 		context.decodeAudioData(this.result, function(buffer) {
 			soundDataBuffer	= buffer;
 			extractMetadata(file);
+			helpTextDiv.classList.add('hidden');
 			playSound();			
 		}, function(e) {
 			trackTitleDiv.innerHTML = 'Error decoding file';
@@ -38,11 +43,13 @@ function loadSoundFile(file) {
 }
 
 function playSound() {
-	if (player.getAttribute('data-state') == 'playing')
-		stopSound();
+	stopSound();
 
 	source = context.createBufferSource(); 
-	source.buffer = soundDataBuffer;	                 
+	source.buffer = soundDataBuffer;
+	source.onended = function() {
+		stopSound();
+	};                 
 	connectEqualizerFilters();
 	connectSpectrumNode();
 	source.start(0);
@@ -51,11 +58,11 @@ function playSound() {
 }
 
 function stopSound() {
-	source.stop();
-
-	player.setAttribute('data-state', 'stopped');
+	if (player.getAttribute('data-state') == 'playing') {
+		source.stop();
+		player.setAttribute('data-state', 'stopped');
+	}
 }
-
 
 soundInput.addEventListener('change', function (e) {
 	if (e.target.files.length)
@@ -92,19 +99,33 @@ function onDragover(e) {
 	e.stopPropagation();
 	e.preventDefault();
 	e.dataTransfer.dropEffect = 'copy';
+	dropRegion.classList.add('dragover');
 }
 
 function onDrop(e) {
 	e.stopPropagation();
 	e.preventDefault();
+	this.classList.remove('dragover');
 	if (e.dataTransfer.files.length)
 		loadSoundFile(e.dataTransfer.files[0]);
+}
+
+function onDragenter(e) {
+	dropRegion.classList.add('dragover');
+}
+
+function onDragleave(e) {
+	dropRegion.classList.remove('dragover');
 }
 
 dropRegion.addEventListener('dragover', onDragover);
 player.addEventListener('dragover', onDragover);
 dropRegion.addEventListener('drop', onDrop);
 player.addEventListener('drop', onDrop);
+dropRegion.addEventListener('dragenter', onDragenter);
+player.addEventListener('dragenter', onDragenter);
+dropRegion.addEventListener('dragleave', onDragleave);
+player.addEventListener('dragleave', onDragleave);
 
 function createEqualizerFilters () {
 	var frequencies = [60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000];

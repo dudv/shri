@@ -27,17 +27,19 @@ body {
 		background-color: transparent;
 		outline: none;
 		padding: 0;
-		&:after {			
-			
-			font-size: 32px;
-			color: black;
+		cursor: pointer;
+		&:after {
+			content: '';	
+			position: absolute;
+		    width: 0;
+		    height: 0;
 			-webkit-transition: color 0.1s;
 			-o-transition: color 0.1s;
 			transition: color 0.1s;
 		}		
 		&:hover {
 			&:after {
-				color: @ya-color;
+				border-left-color: @ya-color;
 			}
 		}
 	}
@@ -46,11 +48,12 @@ body {
 	    height: 100%;
 	    min-width: 240px;
 	    vertical-align: bottom;
+	    margin-bottom: 4px;
 		.track-title {
 			display: inline-block;			
 			font-size: 18px;
-    		margin-top: 6px;
     		white-space: nowrap;
+    		margin-top: 6px;
 		}
 		.filename {
 			font-size: 13px;
@@ -75,14 +78,11 @@ body {
 		top: -10000px;
 	}
 
-	&[data-state="no-track"] {
-		button[name="play"]:after {
-			content: '►';
-		}
+	&[data-state="no-track"], &[data-state="loading"] {
 		.metadata > .track-title {
 			line-height: @player-height;
-			margin-top: 0;
 			color: #999;
+			margin-top: 0;
 		}
 		.metadata > .filename {
 			display: none;
@@ -93,14 +93,34 @@ body {
 	}
 	&[data-state="playing"] {
 		button[name="play"]:after {
-			content: '■';
-			font-size: 48px;
-			line-height: 24px;
+			content: '';
+			background-color: black;
+			width: 24px;
+			height: 24px;
+			left: 12px;
+			top: 12px;		
 		}
 	}
-	&[data-state="stopped"] {
+	&[data-state="stopped"], &[data-state="no-track"] {
 		button[name="play"]:after {
-			content: '►';
+			top: 12px;
+		    left: 16px;
+		    border-top: 12px solid transparent;
+		    border-left: 21px solid #000;
+		    border-bottom: 12px solid transparent;
+		}
+	}
+	&[data-state="loading"] {
+		button[name="play"]:after {
+			content: '';
+			background-image: url('preloader.gif');
+			background-position: center;
+			background-repeat: no-repeat;
+			width: @player-height;
+		    height: @player-height;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
 		}
 	}
 }
@@ -111,6 +131,14 @@ body {
 	height: 100%;
 	left: 0;
 	top: 0;
+	box-sizing: border-box;
+	border: 8px dashed transparent;
+	-webkit-transition: border-color 0.15s;
+	-o-transition: border-color 0.15s;
+	transition: border-color 0.15s;
+	&.dragover {
+		border-color: #666;
+	}
 }
 
 canvas {
@@ -120,3 +148,22 @@ canvas {
 	right: 0;
 	margin: auto;
 }
+
+.help-text {
+	position: absolute;
+	top: 25%;
+	margin: auto;
+	font-size: 48px;
+	left: 0;
+    right: 0;
+    text-align: center;
+    color: #ccc;
+    opacity: 1;
+    -webkit-transition: opacity 0.4s;
+    -o-transition: opacity 0.4s;
+    transition: opacity 0.4s;
+
+    &.hidden {
+    	opacity: 0;
+    }
+}	

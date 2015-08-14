@@ -1,1 +1,152 @@
-body{background-color:#f6f5f3;font-family:Helvetica,sans-serif;margin:0;padding:0;display:flex;justify-content:center;align-items:center;position:absolute;width:100%;height:100%}.player{background:#fff;height:48px;position:relative}.player button[name="play"]{width:48px;height:48px;border:none;box-shadow:none;background-color:transparent;outline:none;padding:0}.player button[name="play"]:after{font-size:32px;color:#000;-webkit-transition:color .1s;-o-transition:color .1s;transition:color .1s}.player button[name="play"]:hover:after{color:#e61400}.player .metadata{display:inline-block;height:100%;min-width:240px;vertical-align:bottom}.player .metadata .track-title{display:inline-block;font-size:18px;margin-top:6px;white-space:nowrap}.player .metadata .filename{font-size:13px;white-space:nowrap}.player select[name="equalizer"]{border:none;box-shadow:none;background-color:transparent;outline:none;display:inline-block;float:right;margin-left:20px;height:20px;margin-top:14px}.player input[name="sound"]{position:absolute;left:-10000px;top:-10000px}.player[data-state="no-track"] button[name="play"]:after{content:'►'}.player[data-state="no-track"] .metadata>.track-title{line-height:48px;margin-top:0;color:#999}.player[data-state="no-track"] .metadata>.filename{display:none}.player[data-state="no-track"] select[name="equalizer"]{display:none}.player[data-state="playing"] button[name="play"]:after{content:'■';font-size:48px;line-height:24px}.player[data-state="stopped"] button[name="play"]:after{content:'►'}.drop-region{position:absolute;width:100%;height:100%;left:0;top:0}canvas{position:absolute;bottom:0;left:0;right:0;margin:auto}
+body {
+  background-color: #f6f5f3;
+  font-family: Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+.player {
+  background: white;
+  height: 48px;
+  position: relative;
+}
+.player button[name="play"] {
+  width: 48px;
+  height: 48px;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+  outline: none;
+  padding: 0;
+  cursor: pointer;
+}
+.player button[name="play"]:after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  -webkit-transition: color 0.1s;
+  -o-transition: color 0.1s;
+  transition: color 0.1s;
+}
+.player button[name="play"]:hover:after {
+  border-left-color: #e61400;
+}
+.player .metadata {
+  display: inline-block;
+  height: 100%;
+  min-width: 240px;
+  vertical-align: bottom;
+  margin-bottom: 4px;
+}
+.player .metadata .track-title {
+  display: inline-block;
+  font-size: 18px;
+  white-space: nowrap;
+  margin-top: 6px;
+}
+.player .metadata .filename {
+  font-size: 13px;
+  white-space: nowrap;
+}
+.player select[name="equalizer"] {
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+  outline: none;
+  display: inline-block;
+  float: right;
+  margin-left: 20px;
+  height: 20px;
+  margin-top: 14px;
+}
+.player input[name="sound"] {
+  position: absolute;
+  left: -10000px;
+  top: -10000px;
+}
+.player[data-state="no-track"] .metadata > .track-title,
+.player[data-state="loading"] .metadata > .track-title {
+  line-height: 48px;
+  color: #999;
+  margin-top: 0;
+}
+.player[data-state="no-track"] .metadata > .filename,
+.player[data-state="loading"] .metadata > .filename {
+  display: none;
+}
+.player[data-state="no-track"] select[name="equalizer"],
+.player[data-state="loading"] select[name="equalizer"] {
+  display: none;
+}
+.player[data-state="playing"] button[name="play"]:after {
+  content: '';
+  background-color: black;
+  width: 24px;
+  height: 24px;
+  left: 12px;
+  top: 12px;
+}
+.player[data-state="stopped"] button[name="play"]:after,
+.player[data-state="no-track"] button[name="play"]:after {
+  top: 12px;
+  left: 16px;
+  border-top: 12px solid transparent;
+  border-left: 21px solid #000;
+  border-bottom: 12px solid transparent;
+}
+.player[data-state="loading"] button[name="play"]:after {
+  content: '';
+  background-image: url('preloader.gif');
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 48px;
+  height: 48px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.drop-region {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  box-sizing: border-box;
+  border: 8px dashed transparent;
+  -webkit-transition: border-color 0.15s;
+  -o-transition: border-color 0.15s;
+  transition: border-color 0.15s;
+}
+.drop-region.dragover {
+  border-color: #666;
+}
+canvas {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+.help-text {
+  position: absolute;
+  top: 25%;
+  margin: auto;
+  font-size: 48px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #ccc;
+  opacity: 1;
+  -webkit-transition: opacity 0.4s;
+  -o-transition: opacity 0.4s;
+  transition: opacity 0.4s;
+}
+.help-text.hidden {
+  opacity: 0;
+}
