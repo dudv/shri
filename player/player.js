@@ -60,7 +60,7 @@ function playSound() {
 
 function stopSound() {
 	if (player.getAttribute('data-state') == 'playing') {
-		source.stop();
+		source.stop(0);
 		player.setAttribute('data-state', 'stopped');
 	}
 }
@@ -168,7 +168,7 @@ function setupSpectrum () {
 	analyser = context.createAnalyser();
 	analyser.smoothingTimeConstant = 0.3;
     analyser.fftSize = 512;
-	spectrumNode = context.createScriptProcessor(0, 1, 1);
+	spectrumNode = context.createScriptProcessor(2048, 1, 1);
 
 	var canvasContext = spectrumCanvas.getContext('2d');
 	spectrumNode.onaudioprocess = function() {
