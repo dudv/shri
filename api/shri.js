@@ -67,29 +67,28 @@ for (i = 0; i < 3; i++) {
             for (K in responses)
                 l.push(K);
 
-            if (l.length == 3) {
+            if (l.length == 3) {                
                 var c = [], cc = [], p = 0;
-                for (i = 0; i < responses['/countries'].length; i++) {
-                    if (responses['/countries'][i].continent === 'Africa') {
-                        c.push(responses['/countries'][i].name);
-                    }
-                }
 
-                for (i = 0; i < responses['/cities'].length; i++) {
-                    for (j = 0; j < c.length; j++) {
-                        if (responses['/cities'][i].country === c[j]) {
-                            cc.push(responses['/cities'][i].name);
-                        }
-                    }
-                }
+                c = responses['/countries'].filter(function(item) {
+                    return item.continent == 'Africa';
+                });
 
-                for (i = 0; i < responses['/populations'].length; i++) {
-                    for (j = 0; j < cc.length; j++) {
-                        if (responses['/populations'][i].name === cc[j]) {
-                            p += responses['/populations'][i].count;
-                        }
+                cc = responses['/cities'].filter(function(item) {
+                    for (var j = 0; j < c.length; j++) {
+                        if (c[j].name === item.country)
+                            return true;
                     }
-                }
+                    return false;
+                });
+
+                p = responses['/populations'].reduce(function(previous, current, index, array) {
+                    for (var j = 0; j < c.length; j++) {
+                        if (cc[j].name === current.name)
+                            return previous + current.count;
+                    }
+                    return previous;
+                }, 0);
 
                 console.log('Total population in African cities: ' + p);
             }
@@ -102,7 +101,7 @@ for (i = 0; i < 3; i++) {
 function getCityPopulation(cityName) {
     var cityPopulations = responses['/populations'];
     for (var i = 0; i < cityPopulations.length; ++i) {
-        if (cityPopulations[i].name == cityName) {
+        if (cityPopulations[i].name === cityName) {
             return cityPopulations[i].count;
         }
     }
@@ -122,7 +121,7 @@ function makeCountryPopulationQuery() {
     var countryName = window.prompt('Enter country name', 'Japan');
     var cities = responses['/cities'], countryCities = [], i;
     for (i = 0; i < cities.length; ++i) {
-        if (cities[i].country == countryName) {
+        if (cities[i].country === countryName) {
            countryCities.push(cities[i].name);
         }
     }
