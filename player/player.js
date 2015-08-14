@@ -3,6 +3,7 @@
 var context, source, soundDataBuffer, analyser, equalizerFilters, spectrumNode;
 window.addEventListener('load', function() {
 	try {
+		window.AudioContext = window.AudioContext || window.webkitAudioContext;
 		context = new AudioContext();
 		setupSpectrum();
 		createEqualizerFilters();		
