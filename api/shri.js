@@ -47,7 +47,7 @@ function getData(url, callback) {
 var requests = ['/countries', '/cities', '/populations'];
 var responses = {};
 
-for (i = 0; i < 3; i++) {    
+for (var i = 0; i < 3; i++) {    
     /* 
         Ошибка состоит в неправильном использовании замыканий.
         Функция callback запускается не сразу, а спустя некоторый промежуток времени.
@@ -63,34 +63,29 @@ for (i = 0; i < 3; i++) {
     var callback = function(request) {
         return function (error, result) {
             responses[request] = result;
-            var l = [];
-            for (K in responses)
-                l.push(K);
 
-            if (l.length == 3) {                
-                var c = [], cc = [], p = 0;
-
-                c = responses['/countries'].filter(function(item) {
+            if (Object.keys(responses).length == 3) {                
+                var africanCountries = responses['/countries'].filter(function(item) {
                     return item.continent == 'Africa';
                 });
 
-                cc = responses['/cities'].filter(function(item) {
-                    for (var j = 0; j < c.length; j++) {
-                        if (c[j].name === item.country)
+                var africanCities = responses['/cities'].filter(function(item) {
+                    for (var j = 0; j < africanCountries.length; j++) {
+                        if (africanCountries[j].name === item.country)
                             return true;
                     }
                     return false;
                 });
 
-                p = responses['/populations'].reduce(function(previous, current, index, array) {
-                    for (var j = 0; j < c.length; j++) {
-                        if (cc[j].name === current.name)
+                var totalPopulation = responses['/populations'].reduce(function(previous, current, index, array) {
+                    for (var j = 0; j < africanCities.length; j++) {
+                        if (africanCities[j].name === current.name)
                             return previous + current.count;
                     }
                     return previous;
                 }, 0);
 
-                console.log('Total population in African cities: ' + p);
+                console.log('Total population in African cities: ' + totalPopulation);
             }
         };
     } (request);
