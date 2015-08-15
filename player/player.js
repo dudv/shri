@@ -85,14 +85,17 @@ playButton.addEventListener("click", function() {
 });
 
 function extractMetadata(file) {
-	var success_callback = function (metadata) {
+	var successCallback = function (metadata) {
 		trackTitleDiv.innerHTML = metadata.artist + ' - ' + metadata.title;
 		filenameDiv.innerHTML = file.name;
 	};
-	var error_callback = function (e) {
-	    console.log(e);
+	var errorCallback = function (e) {
+		// sometimes metadata parser thinks the file is unplayable, while in fact it's correct
+		// use filename without extension as track title
+	    trackTitleDiv.innerHTML = file.name.replace(/\.[^\.]+$/, "");
+	    filenameDiv.innerHTML = file.name;
 	};
-	parse_audio_metadata(file, success_callback, error_callback)
+	parse_audio_metadata(file, successCallback, errorCallback)
 } 
 
 
